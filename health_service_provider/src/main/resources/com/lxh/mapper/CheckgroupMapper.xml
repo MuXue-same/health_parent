@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxh.mapper.CheckgroupMapper">
+  <resultMap id="BaseResultMap" type="com.lxh.entity.CheckGroup">
+    <!--@mbg.generated-->
+    <!--@Table t_checkgroup-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="helpCode" jdbcType="VARCHAR" property="helpCode" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="attention" jdbcType="VARCHAR" property="attention" />
+  </resultMap>
+    <resultMap id="findByIdResultMap" type="com.lxh.entity.CheckGroup" extends="BaseResultMap">
+        <!--检查组和检查项多对多关联查询-->
+        <collection property="checkItems"
+                    ofType="com.lxh.entity.CheckItem"
+                    column="id"
+                    select="com.lxh.mapper.CheckitemMapper.findCheckItemById"
+        ></collection>
+    </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, code, `name`, helpCode, sex, remark, attention
+  </sql>
+
+
+    <select id="selectCodeOrderByName" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List"/>
+        from t_checkgroup
+      <if test="vule != null">
+          where code = #{vule} or helpCode = #{vule} or name like concat('%',#{vule},'%')
+      </if>
+
+    </select>
+    <insert id="insertCheckgroup" useGeneratedKeys="true" keyProperty="checkGroup.id" keyColumn="id">
+        INSERT INTO t_checkgroup(
+        id,
+        code,
+        name,
+        helpCode,
+        sex,
+        remark,
+        attention
+        )VALUES
+        (
+        #{checkGroup.id,jdbcType=INTEGER},
+        #{checkGroup.code,jdbcType=VARCHAR},
+        #{checkGroup.name,jdbcType=VARCHAR},
+        #{checkGroup.helpCode,jdbcType=VARCHAR},
+        #{checkGroup.sex,jdbcType=VARCHAR},
+        #{checkGroup.remark,jdbcType=VARCHAR},
+        #{checkGroup.attention,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertGroupAndItem">
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id)
+        values
+                <foreach collection="checkitemids" item="itemid" separator=",">
+                    (#{checkGroupId},#{itemid})
+                </foreach>
+    </insert>
+    <delete id="deletegroupAnditem">
+        delete from t_checkgroup_checkitem
+        where checkgroup_id = #{groupid}
+    </delete>
+    <delete id="deleteCheckgroup">
+        delete from t_checkgroup
+        where id = #{Pgroupid}
+    </delete>
+    <update id="updateCheckgroup">
+        update t_checkgroup
+        set
+            code=#{upgroup.code,jdbcType=VARCHAR},name=#{upgroup.name,jdbcType=VARCHAR},
+            helpCode=#{upgroup.helpCode,jdbcType=VARCHAR},sex=#{upgroup.sex,jdbcType=VARCHAR},
+            remark=#{upgroup.remark,jdbcType=VARCHAR},attention=#{param1.attention,jdbcType=VARCHAR}
+        where id=#{upgroup.id,jdbcType=INTEGER}
+    </update>
+    <select id="findAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_checkgroup
+    </select>
+    <!--根据套餐ID查询关联的检查组详情-->
+    <select id="findCheckGroupById" parameterType="int" resultMap="findByIdResultMap">
+        select * from t_checkgroup where id in (select checkgroup_id from t_setmeal_checkgroup where setmeal_id = #{setmeal_id})
+    </select>
+
+</mapper>

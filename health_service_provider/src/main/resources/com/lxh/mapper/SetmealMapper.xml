@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxh.mapper.SetmealMapper">
+  <resultMap id="BaseResultMap" type="com.lxh.entity.Setmeal">
+    <!--@mbg.generated-->
+    <!--@Table t_setmeal-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="helpCode" jdbcType="VARCHAR" property="helpCode" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="age" jdbcType="VARCHAR" property="age" />
+    <result column="price" jdbcType="FLOAT" property="price" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="attention" jdbcType="VARCHAR" property="attention" />
+    <result column="img" jdbcType="VARCHAR" property="img" />
+  </resultMap>
+  <resultMap type="com.lxh.entity.Setmeal" id="findByIdResultMap" extends="BaseResultMap">
+    <collection property="checkGroups" javaType="ArrayList" ofType="com.lxh.entity.CheckGroup" column="id" select="com.lxh.mapper.CheckgroupMapper.findCheckGroupById">
+    </collection>
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, `name`, code, helpCode, sex, age, price, remark, attention, img
+  </sql>
+  <select id="findPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_setmeal
+    <if test="queryString != null">
+      where code = #{queryString} or helpCode = #{queryString} or name like concat('%',#{queryString},'%')
+    </if>
+
+  </select>
+    <insert id="insertSetmeal" useGeneratedKeys="true" keyProperty="setmeal.id" keyColumn="id">
+      insert into t_setmeal
+      values(#{setmeal.id,jdbcType=INTEGER},#{setmeal.name,jdbcType=VARCHAR},#{setmeal.code,jdbcType=VARCHAR},
+      #{setmeal.helpCode,jdbcType=VARCHAR},#{setmeal.sex,jdbcType=VARCHAR},#{setmeal.age,jdbcType=VARCHAR},
+      #{setmeal.price,jdbcType=FLOAT},#{setmeal.remark,jdbcType=VARCHAR},
+      #{setmeal.attention,jdbcType=VARCHAR},#{setmeal.img,jdbcType=VARCHAR}
+                    )
+    </insert>
+  <insert id="insertSetChe">
+    insert into t_setmeal_checkgroup
+    values
+    <foreach collection="checkgroupIds" item="itemid" separator=",">
+      (#{setId},#{itemid})
+    </foreach>
+
+  </insert>
+    <select id="findAll" resultMap="BaseResultMap">
+      select * from t_setmeal
+    </select>
+  <select id="findById" resultMap="BaseResultMap">
+    select * from t_setmeal where id=#{id}
+  </select>
+</mapper>
