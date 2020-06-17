@@ -26,4 +26,9 @@
   <select id="selectDate" resultMap="BaseResultMap">
     select * from t_ordersetting where orderDate between #{dateBegin} and #{dateEnd}
   </select>
+  <select id="findByOrderDate" resultMap="BaseResultMap">
+    select *
+    from t_ordersetting
+    where orderDate=#{orderDate};
+  </select>
 </mapper>

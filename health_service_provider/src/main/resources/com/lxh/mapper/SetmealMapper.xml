@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lxh.mapper.SetmealMapper">
+  <!--<resultMap id="baseResultMap" type="com.itheima.pojo.Setmeal">
+    <id column="setmealId" property="id"/>
+    <result column="setmealName" property="name"/>
+    <result column="code" property="code"/>
+    <result column="helpCode" property="helpCode"/>
+    <result column="sex" property="sex"/>
+    <result column="age" property="age"/>
+    <result column="price" property="price"/>
+    <result column="remark" property="remark"/>
+    <result column="attention" property="attention"/>
+    <result column="img" property="img"/>
+  </resultMap>
+
+  <resultMap id="findByIdResultMap" type="com.itheima.pojo.Setmeal" extends="baseResultMap">
+    &lt;!&ndash;多对多映射&ndash;&gt;
+    <collection property="checkGroups" ofType="com.itheima.pojo.CheckGroup">
+      <id property="id" column="groupId"></id>
+      <result property="name" column="groupName"></result>
+      <collection property="checkItems" ofType="com.itheima.pojo.CheckItem">
+        <id property="id" column="itemId"></id>
+        <result property="name" column="itemName"></result>
+        <result property="code" column="itemCode"></result>
+        <result property="price" column="itemPrice"></result>
+        <result property="sex" column="itemSex"></result>
+        <result property="remark" column="itemRemark"></result>
+        <result property="type" column="itemType"></result>
+        <result property="age" column="itemAge"></result>
+        <result property="attention" column="itemAttention"></result>
+      </collection>
+    </collection>
+  </resultMap>-->
+
+
   <resultMap id="BaseResultMap" type="com.lxh.entity.Setmeal">
     <!--@mbg.generated-->
     <!--@Table t_setmeal-->
@@ -51,7 +84,51 @@
     <select id="findAll" resultMap="BaseResultMap">
       select * from t_setmeal
     </select>
-  <select id="findById" resultMap="BaseResultMap">
+
+  <select id="findById" resultMap="findByIdResultMap">
     select * from t_setmeal where id=#{id}
   </select>
+
+  <!--<select id="findById" parameterType="int" resultMap="findByIdResultMap">
+    SELECT
+    s1.id AS setmealId,
+    s1.name AS setmealName,
+    s1.age,
+    s1.attention,
+    s1.code,
+    s1.helpCode,
+    s1.img,
+    s1.price,
+    s1.remark,
+    s1.sex,
+    s3.id AS groupId,
+    s3.name AS groupName,
+    s5.id AS itemId,
+    s5.name AS itemName,
+    s5.age AS itemAge,
+    s5.attention AS itemAttention,
+    s5.code AS itemCode,
+    s5.price AS itemPrice,
+    s5.remark AS itemRemark,
+    s5.sex AS itemSex,
+    s5.type AS itemType
+    FROM
+    t_setmeal s1
+    INNER JOIN
+    t_setmeal_checkgroup s2
+    ON
+    s1.id = s2.setmeal_id AND s1.id=#{id}
+    INNER JOIN
+    t_checkgroup s3
+    ON
+    s3.id = s2.checkgroup_id
+    INNER JOIN
+    t_checkgroup_checkitem s4
+    ON
+    s4.checkgroup_id = s3.id
+    INNER JOIN
+    t_checkitem s5
+    ON
+    s5.id = s4.checkitem_id
+  </select>-->
 </mapper>

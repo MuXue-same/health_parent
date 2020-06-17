@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxh.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="com.lxh.entity.Order">
+    <!--@mbg.generated-->
+    <!--@Table t_order-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="orderDate" jdbcType="DATE" property="orderDate" />
+    <result column="orderType" jdbcType="VARCHAR" property="orderType" />
+    <result column="orderStatus" jdbcType="VARCHAR" property="orderStatus" />
+    <result column="setmeal_id" jdbcType="INTEGER" property="setmealId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, member_id, orderDate, orderType, orderStatus, setmeal_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lxh.entity.Order" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_order (member_id, orderDate, orderType, 
+      orderStatus, setmeal_id)
+    values (#{memberId,jdbcType=INTEGER}, #{orderDate,jdbcType=DATE}, #{orderType,jdbcType=VARCHAR},
+      #{orderStatus,jdbcType=VARCHAR}, #{setmealId,jdbcType=INTEGER})
+  </insert>
+  <select id="findByMemberIdAndSetmealIdAndOrderDate" resultMap="BaseResultMap">
+    select *
+    from t_order
+    where member_id=#{memberId} and setmeal_id=#{setmealId} and orderDate=#{orderDate};
+
+  </select>
+
+  <!--根据预约id查询预约信息，包括体检人信息、套餐信息-->
+  <select id="findById4Detail" parameterType="int" resultType="map">
+    select m.name member ,s.name setmeal,o.orderDate orderDate,o.orderType orderType
+    from
+    t_order o,
+    t_member m,
+    t_setmeal s
+    where o.member_id=m.id and o.setmeal_id=s.id and o.id=#{id}
+  </select>
+</mapper>
