@@ -23,4 +23,5 @@ public interface CheckgroupMapper {
     void updateCheckgroup(@Param("upgroup") CheckGroup checkGroup);
 
     List<CheckGroup> findAll();
+
 }
