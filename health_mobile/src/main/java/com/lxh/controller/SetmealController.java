@@ -30,6 +30,7 @@ public class SetmealController {
     public Result findById(int id){
         try{
             Setmeal setmeal = setmealService.findById(id);
+            System.out.println(setmeal);
             return new Result(true,MessageConstant.QUERY_SETMEAL_SUCCESS,setmeal);
         }catch (Exception e){
             e.printStackTrace();
