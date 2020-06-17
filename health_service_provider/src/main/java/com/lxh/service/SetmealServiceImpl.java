@@ -12,7 +12,6 @@ import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 import redis.clients.jedis.JedisPool;
 
@@ -36,8 +35,8 @@ public class SetmealServiceImpl implements SetmealService {
     @Autowired
     private FreeMarkerConfigurer freeMarkerConfigurer;
 
-    @Value("${out_put_path}")
-    private String outPutPath;//从属性文件中读取要生成的html对应的目录
+/*    @Value("${out_put_path}")*/
+    private String outPutPath="D:/ideaTest/IdeaProjects/health_parent/health_parent/health_mobile/src/main/webapp/pages";//从属性文件中读取要生成的html对应的目录
 
 
 
