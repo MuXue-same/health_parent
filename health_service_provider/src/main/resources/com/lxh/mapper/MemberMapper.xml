@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lxh.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.lxh.entity.Member">
+    <!--@mbg.generated-->
+    <!--@Table t_member-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="fileNumber" jdbcType="VARCHAR" property="fileNumber" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="idCard" jdbcType="VARCHAR" property="idCard" />
+    <result column="phoneNumber" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="regTime" jdbcType="DATE" property="regTime" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, fileNumber, `name`, sex, idCard, phoneNumber, regTime, `password`, email, birthday, 
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.lxh.entity.Member" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_member (fileNumber, `name`, sex, 
+      idCard, phoneNumber, regTime, 
+      `password`, email, birthday, 
+      remark)
+    values (#{fileNumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+      #{idCard,jdbcType=VARCHAR}, #{phoneNumber,jdbcType=VARCHAR}, #{regTime,jdbcType=DATE},
+      #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <select id="findByTelephone" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from t_member
+    where phoneNumber = #{telephone};
+  </select>
+</mapper>
