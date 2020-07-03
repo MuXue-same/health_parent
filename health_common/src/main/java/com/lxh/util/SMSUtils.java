@@ -13,8 +13,8 @@ import com.aliyuncs.profile.IClientProfile;
  * 短信发送工具类
  */
 public class SMSUtils {
-	public static final String VALIDATE_CODE = "SMS_193238585";//发送短信验证码
-	public static final String ORDER_NOTICE = "SMS_159771588";//体检预约成功通知
+	public static final String VALIDATE_CODE = "xxx";//发送短信验证码
+	public static final String ORDER_NOTICE = "xxx";//体检预约成功通知
 	/**
 	 * 发送短信
 	 * @param phoneNumbers
@@ -29,8 +29,8 @@ public class SMSUtils {
 		final String product = "Dysmsapi";// 短信API产品名称（短信产品名固定，无需修改）
 		final String domain = "dysmsapi.aliyuncs.com";// 短信API产品域名（接口地址固定，无需修改）
 		// 替换成你的AK
-		final String accessKeyId = "LTAI4GETHy91aecLRbduCAYs";// 你的accessKeyId,参考本文档步骤2
-		final String accessKeySecret = "cxUdPjQrQD0BT9dj1UYsfNJije4JZI";// 你的accessKeySecret，参考本文档步骤2
+		final String accessKeyId = "xxx";// 你的accessKeyId,参考本文档步骤2
+		final String accessKeySecret = "xxx";// 你的accessKeySecret，参考本文档步骤2
 		// 初始化ascClient,暂时不支持多region（请勿修改）
 		IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
 		DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
